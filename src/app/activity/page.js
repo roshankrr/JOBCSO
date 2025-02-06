@@ -9,6 +9,7 @@ export default async function Activity() {
   const user = await currentUser();
   const jobList = await fetchJobsForCandidateAction();
   const jobApplicants = await fetchJobApplicationsForCandidate(user?.id);
+  console.log(jobApplicants);
 
   return <CandidateActivity jobList={jobList} jobApplicants={jobApplicants} />;
 }

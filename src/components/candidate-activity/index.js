@@ -1,11 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import CommonCard from "../common-card";
 import JobIcon from "../job-icon";
+import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 function CandidateActivity({ jobList, jobApplicants }) {
+  const [cry,setcry]=useState(false);
   console.log(jobList, jobApplicants);
+
+
+  const handlecry=()=>{
+    console.log("m chala hu")
+    setcry(true);
+    setInterval(()=>{
+      setcry(false);
+    },2000)
+  }
 
   const uniqueStatusArray = [
     ...new Set(
@@ -24,13 +36,16 @@ function CandidateActivity({ jobList, jobApplicants }) {
           </h1>
           <TabsList>
             {uniqueStatusArray.map((status) => (
-              <TabsTrigger value={status}>{status}</TabsTrigger>
+              <TabsTrigger value={status}>{status} {cry?(<span className="text-3xl animate-spin">😭</span>):""}</TabsTrigger>
             ))}
           </TabsList>
         </div>
         <div className="pb-24 pt-6">
           <div className="container mx-auto p-0 space-y-8">
             <div className="flex flex-col gap-4">
+              {uniqueStatusArray.map((status)=>(
+              <Button onClick={handlecry} className={`bg-red-600 ${status==="rejected"?"":"hidden"} animate-pulse`}>You Are Rejected 😭</Button>
+              ))}
               {uniqueStatusArray.map((status) => (
                 <TabsContent value={status}>
                   {jobList
@@ -51,7 +66,7 @@ function CandidateActivity({ jobList, jobApplicants }) {
                         icon={<JobIcon />}
                         title={finalFilteredItem?.title}
                         description={finalFilteredItem?.companyName}
-                      />
+                      ></CommonCard>
                     ))}
                 </TabsContent>
               ))}
